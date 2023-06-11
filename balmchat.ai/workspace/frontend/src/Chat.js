@@ -7,16 +7,32 @@ function Chat({ messages, addMessage }) {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+
+    if (input.trim() === '') {
+      // Handle empty input, display an error message, or prevent sending the request
+      return;
+    }
+
     addMessage({ sender: 'user', content: input });
     setInput('');
 
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input }),
-    });
-    const data = await response.json();
-    addMessage({ sender: 'therapist', content: data.response });
+    try {
+      const response = await fetch('https://geniusgeek-shiny-funicular-456xgqxvg6h7x5w-3003.preview.app.github.dev/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message.');
+      }
+
+      const data = await response.json();
+      addMessage({ sender: 'therapist', content: data.response });
+    } catch (error) {
+      console.error(error);
+      // Handle the error, display an error message, or perform any necessary actions
+    }
   };
 
   return (
