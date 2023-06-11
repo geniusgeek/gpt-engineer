@@ -1,22 +1,22 @@
-
 import openai
 
 
 class AI:
     def __init__(self, **kwargs):
         self.kwargs = kwargs
+        self.kwargs["max_tokens"] = 2000
 
     def start(self, system, user):
         messages = [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ]
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ]
 
         return self.next(messages)
 
     def fsystem(self, msg):
         return {"role": "system", "content": msg}
-    
+
     def fuser(self, msg):
         return {"role": "user", "content": msg}
 
@@ -27,7 +27,7 @@ class AI:
         response = openai.ChatCompletion.create(
             messages=messages,
             stream=True,
-            **self.kwargs
+            **self.kwargs,
         )
 
         chat = []

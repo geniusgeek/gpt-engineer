@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+</head>
+<body>
+    <h1>Mental Health Chatbot</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="message">Your message:</label>
+        <input type="text" name="message" id="message" required>
+        <button type="submit">Send</button>
+    </form>
+    {% if bot_response %}
+        <p>User: {{ user_message }}</p>
+        <p>Bot: {{ bot_response }}</p>
+    {% endif %}
+</body>
+</html>
